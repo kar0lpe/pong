@@ -14,10 +14,9 @@ public:
 					 boost::lockfree::spsc_queue<SerializedMessage>& qIn,
 					 boost::lockfree::spsc_queue<SerializedMessage>& qOut) : playerId(id), socket(pio_context), msgQ_In(qIn), msgQ_Out(qOut) {}
 	void handleConnection() override;
-	void stopConnection() override;
 	void sendMessage(SerializedMessage& msg) override;
 	ip::tcp::socket& getSocket() { return socket; }
-	
+	~PlayerConnection();
 private:
 	void writeToSocket(const std::string & msg);
 	int playerId;

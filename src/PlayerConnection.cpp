@@ -16,14 +16,10 @@ void PlayerConnection::handleConnection()
 	}
 	catch(boost::system::system_error&)
 	{
+		socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+		socket.close();
 	}
 	
-	
-}
-
-void PlayerConnection::stopConnection()
-{
-		
 }
 
 void PlayerConnection::sendMessage(SerializedMessage& msg)
@@ -60,6 +56,12 @@ void PlayerConnection::handleRequest()
 	SerializedMessage msg;
 	msg.load(str_data);
 	msgQ_In.push(msg);
+}
+
+PlayerConnection::~PlayerConnection()
+{
+	socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
+	socket.close();
 }
 
 void PlayerConnection::writeToSocket(const std::string & msg)

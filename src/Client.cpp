@@ -62,6 +62,7 @@ void Client::stop()
 	clientRunning = false;
 	if(connectionToServer.joinable())
 		connectionToServer.join();
+	socket.close();
 }
 
 void Client::writeToSocket(const std::string & msg)
